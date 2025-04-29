@@ -75,100 +75,100 @@
         return groupedSessions;
     }
     
-    // Create session card element
-    function createSessionCard(session) {
-        const sessionBox = document.createElement('div');
-        sessionBox.className = 'info-box';
+// Create session card element
+function createSessionCard(session) {
+    const sessionBox = document.createElement('div');
+    sessionBox.className = 'info-box';
+    
+    // Create session title with timing
+    const timing = session.timing || "All Day";
+    const sessionTitle = document.createElement('h2');
+    sessionTitle.className = 'info-section-title';
+    sessionTitle.innerHTML = `Training Details<br><span style="font-size: smaller;">Session ${session.session} (${timing})</span>`;
+    sessionBox.appendChild(sessionTitle);
+    
+    // Create information rows
+    const infoRows = [
+        { label: "Training Date", value: session.date },
+        { label: "Training Topic", value: session.topic },
+        { label: "Venue", value: session.venue },
+        { label: "Student Count", value: session.studentCount }
+    ];
+    
+    infoRows.forEach(info => {
+        const row = document.createElement('div');
+        row.className = 'info-row';
         
-        // Create session title with timing
-        const timing = session.timing || "All Day";
-        const sessionTitle = document.createElement('h2');
-        sessionTitle.className = 'info-section-title';
-        sessionTitle.textContent = `Training Details - Session ${session.session} (${timing})`;
-        sessionBox.appendChild(sessionTitle);
+        const label = document.createElement('div');
+        label.className = 'info-label';
+        label.textContent = info.label;
         
-        // Create information rows
-        const infoRows = [
-            { label: "Training Date", value: session.date },
-            { label: "Training Topic", value: session.topic },
-            { label: "Venue", value: session.venue },
-            { label: "Student Count", value: session.studentCount }
-        ];
+        const value = document.createElement('div');
+        value.className = 'info-value';
+        value.textContent = info.value || "-";
         
-        infoRows.forEach(info => {
-            const row = document.createElement('div');
-            row.className = 'info-row';
-            
-            const label = document.createElement('div');
-            label.className = 'info-label';
-            label.textContent = info.label;
-            
-            const value = document.createElement('div');
-            value.className = 'info-value';
-            value.textContent = info.value || "-";
-            
-            row.appendChild(label);
-            row.appendChild(value);
-            sessionBox.appendChild(row);
+        row.appendChild(label);
+        row.appendChild(value);
+        sessionBox.appendChild(row);
+    });
+    
+    // Create departments row
+    const deptRow = document.createElement('div');
+    deptRow.className = 'info-row';
+    
+    const deptLabel = document.createElement('div');
+    deptLabel.className = 'info-label';
+    deptLabel.textContent = "Departments";
+    
+    const deptValue = document.createElement('div');
+    deptValue.className = 'info-value';
+    
+    const deptList = document.createElement('div');
+    deptList.className = 'department-list';
+    
+    // Add department badges
+    if (session.departments && session.departments.length > 0) {
+        session.departments.forEach(dept => {
+            const badge = document.createElement('span');
+            badge.className = 'department-badge';
+            badge.textContent = dept;
+            deptList.appendChild(badge);
         });
-        
-        // Create departments row
-        const deptRow = document.createElement('div');
-        deptRow.className = 'info-row';
-        
-        const deptLabel = document.createElement('div');
-        deptLabel.className = 'info-label';
-        deptLabel.textContent = "Departments";
-        
-        const deptValue = document.createElement('div');
-        deptValue.className = 'info-value';
-        
-        const deptList = document.createElement('div');
-        deptList.className = 'department-list';
-        
-        // Add department badges
-        if (session.departments && session.departments.length > 0) {
-            session.departments.forEach(dept => {
-                const badge = document.createElement('span');
-                badge.className = 'department-badge';
-                badge.textContent = dept;
-                deptList.appendChild(badge);
-            });
-        } else {
-            deptList.textContent = "No departments specified";
-        }
-        
-        deptValue.appendChild(deptList);
-        deptRow.appendChild(deptLabel);
-        deptRow.appendChild(deptValue);
-        sessionBox.appendChild(deptRow);
-        
-        // Create materials section
-        if (session.pptLink) {
-            const materialSection = document.createElement('div');
-            materialSection.className = 'material-section';
-            
-            const materialLabel = document.createElement('div');
-            materialLabel.className = 'info-label';
-            materialLabel.textContent = "Training Materials";
-            
-            const materialValue = document.createElement('div');
-            materialValue.className = 'info-value';
-            
-            const pptLink = document.createElement('a');
-            pptLink.className = 'ppt-link';
-            pptLink.href = session.pptLink;
-            pptLink.target = "_blank";
-            pptLink.textContent = "Download Presentation";
-            
-            materialValue.appendChild(pptLink);
-            materialSection.appendChild(materialLabel);
-            materialSection.appendChild(materialValue);
-            sessionBox.appendChild(materialSection);
-        }
-        
-        return sessionBox;
+    } else {
+        deptList.textContent = "No departments specified";
     }
+    
+    deptValue.appendChild(deptList);
+    deptRow.appendChild(deptLabel);
+    deptRow.appendChild(deptValue);
+    sessionBox.appendChild(deptRow);
+    
+    // Create materials section
+    if (session.pptLink) {
+        const materialSection = document.createElement('div');
+        materialSection.className = 'material-section';
+        
+        const materialLabel = document.createElement('div');
+        materialLabel.className = 'info-label';
+        materialLabel.textContent = "Training Materials";
+        
+        const materialValue = document.createElement('div');
+        materialValue.className = 'info-value';
+        
+        const pptLink = document.createElement('a');
+        pptLink.className = 'ppt-link';
+        pptLink.href = session.pptLink;
+        pptLink.target = "_blank";
+        pptLink.textContent = "Download Presentation";
+        
+        materialValue.appendChild(pptLink);
+        materialSection.appendChild(materialLabel);
+        materialSection.appendChild(materialValue);
+        sessionBox.appendChild(materialSection);
+    }
+    
+    return sessionBox;
+}
     
     // Populate date filter dropdown
     function populateDateFilter(sessions) {
