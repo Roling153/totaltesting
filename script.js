@@ -84,7 +84,7 @@
         const timing = session.timing || "All Day";
         const sessionTitle = document.createElement('h2');
         sessionTitle.className = 'info-section-title';
-        sessionTitle.textContent = `Training Details Session ${session.session} \n (${timing})`;
+        sessionTitle.innerHTML = `Training Details<br><span style="font-size: smaller;">Session ${session.session} (${timing})</span>`;
         sessionBox.appendChild(sessionTitle);
         
         // Create information rows
